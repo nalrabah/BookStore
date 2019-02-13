@@ -27,6 +27,7 @@ urlpatterns = [
     path('home/',views.booklist ,name='book-list'),
     path('book/create/',views.book_create ,name='book-create'),
     path('book/<int:book_id>/detail/',views.bookdetail ,name='book-detail'),
-    path('book/<int:book_id>/delete/',views.restaurant_delete ,name='restaurant-delete'),
+    path('book/bought/',views.bought_books ,name='bought-books'),
+    path('book/<int:book_id>/delete/',views.book_delete ,name='book-delete'),
     ]
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

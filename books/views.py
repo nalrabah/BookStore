@@ -12,7 +12,7 @@ def book_buy(request, book_id):
     if request.user.is_anonymous:
         return redirect('signin')
     
-    buy, created = MyBook.objects.get_or_create(user=request.user, book=book_obj)
+    buy = MyBook.objects.get(user=request.user, book=book_obj)
     if created:
         action="buy"
     else:
@@ -44,23 +44,19 @@ def booklist(request):
     return render(request, 'list.html', context)
 def bookdetail(request, book_id):
     book = Book.objects.get(id=book_id)
-    bought_books = []
-    if request.user.is_authenticated:
-        bought_books = request.user.mybook_set.all().values_list('book', flat=True)
+
+
     context = {
         "book": book,
-        "bought_books": bought_books,
+       
     }
     return render(request, 'detail.html', context)
 
-    # favorite_list = []
-    # if request.user.is_authenticated:
-    #     favorite_list = request.user.favoriterestaurant_set.all().values_list('restaurant', flat=True)
 def bought_books(request):
     if request.user.is_anonymous:
         return redirect('signin')
-    bought_list = request.user.mybook_set.all().values_list('book', flat=True)
-    books = Book.objects.filter(id__in=bought_list)
+    
+    books = Book.objects.filter(user=request.user)
     context = {
         "books": books,
     }
@@ -126,9 +122,9 @@ def book_create(request):
     }
     return render(request, 'create.html', context)
 
-def restaurant_delete(request, book_id):
+def book_delete(request, book_id):
     book_obj = Book.objects.get(id=book_id)
-    if not (request.user.is_staff):
-        return redirect('no-access')
+    # if not (request.user.is_staff):
+    #     return redirect('no-access')
     book_obj.delete()
     return redirect('home')

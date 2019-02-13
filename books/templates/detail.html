@@ -24,11 +24,13 @@
             <a href="{% url 'book-create' book.id %}" class="btn btn-outline-success btn-block">Add Item</a>
         </div>
       {% endif %}
-              <div class="float-right">
-        <i id="star-{{book.id}}"
-                    class="fas fa-star {% if book.id in bought_list %}text-warning{% endif %}"
-                    onclick="favorite_me({{book.id}})"></i>
+{% if request.user.is_authenticated %}
+        <button class="float-item">
+          <a href="{% url 'bought-books' %}">Buy Book? Its Free!</a>
+        </button>
+    {% endif %}
     </div>
   </div>
 </div>
+
 {% endblock content %}
