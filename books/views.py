@@ -4,12 +4,29 @@ from .forms import SignupForm, SigninForm, BookForm
 from .models import Book
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.db.models import Q
 
 # Create your views here.
 
 def booklist(request):
     books = Book.objects.all()
-    context = { "books": books}
+    query = request.GET.get('q')
+    if query:
+        books = books.filter(
+            Q(book_name__icontains=query)|
+            Q(condition__icontains=query)|
+            Q(isbn__icontains=query)|
+            Q(author__icontains=query)
+        ).distinct()
+
+    # favorite_list = []
+    # if request.user.is_authenticated:
+    #     favorite_list = request.user.favoriterestaurant_set.all().values_list('restaurant', flat=True)
+
+    context = {
+       "books": books,
+       # "favorite_list": favorite_list
+    }
     return render(request, 'list.html', context)
 
 def signup(request):
