@@ -18,6 +18,7 @@ class Book(models.Model):
 	)
 	isbn = ISBNField(clean_isbn=False)
 	author = models.CharField(max_length=120)
+	owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
 	def __str__(self):
 		return "%s by %s" % (self.book_name, self.author)
@@ -25,3 +26,6 @@ class Book(models.Model):
 class MyBook(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+    	return self.book.book_name

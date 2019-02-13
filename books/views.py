@@ -7,22 +7,13 @@ from django.contrib import messages
 from django.db.models import Q
 
 # Create your views here.
-def book_buy(request, book_id):
+def buy_book(request, book_id):
     book_obj = Book.objects.get(id=book_id)
     if request.user.is_anonymous:
         return redirect('signin')
     
-    buy = MyBook.objects.get(user=request.user, book=book_obj)
-    if created:
-        action="buy"
-    else:
-        buy.delete()
-        action="remove"
-
-    response = {
-        "action": action,
-    }
-    return JsonResponse(response, safe=False)
+    buy = MyBook.objects.create(user=request.user, book=book_obj)
+    return redirect('bought-books')
 
 def booklist(request):
     query = request.GET.get('q')
@@ -52,13 +43,14 @@ def bookdetail(request, book_id):
     }
     return render(request, 'detail.html', context)
 
+
+
 def bought_books(request):
     if request.user.is_anonymous:
         return redirect('signin')
-    
-    books = Book.objects.filter(user=request.user)
+    book_list = request.user.mybook_set.all()
     context = {
-        "books": books,
+        "book_list": book_list,
     }
     return render(request, 'bought_books.html', context)
 
@@ -114,9 +106,11 @@ def book_create(request):
     if request.method == "POST":
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            book_creator = request.user
-            form.save()
-            return redirect('book-list')
+            book = form.save(commit=false)
+            book.owner = request.user
+            book.save()
+            return redirect('bought_books')
+
     context = {
         "form":form,
     }

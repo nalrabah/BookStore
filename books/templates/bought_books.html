@@ -6,16 +6,17 @@
 <br>
 
 <div class="row">
-    {% for book in bought_books %}
+
+    {% for book in book_list %}
     <div class="col-md-4">
         <div class="card my-card">
-          {% if book.image %}
-             <img class="card-img-top" src="{{book.image.url}}" alt="Where did the pic go?">
+          {% if book.book.image %}
+             <img class="card-img-top" src="{{book.book.image.url}}" alt="Where did the pic go?">
           {% endif %}
           <div class="card-body">
-            <h5 class="card-title">Title: {{book.name}}</h5><br>
-            <p class="card-text">Author: {{book.author}</p>
-            <p class="card-text">Condition: {{book.condition}</p>
+            <h5 class="card-title">Title: {{book.book.book_name}}</h5><br>
+            <p class="card-text">Author: {{book.book.author}}</p>
+            <p class="card-text">Condition: {{book.book.condition}}</p>
           </div>
         </div>
     </div>
