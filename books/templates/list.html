@@ -4,6 +4,11 @@
 
 {% block content %}
 <br>
+{% if request.user.is_authenticated %}
+        <button class="nav-item">
+          <a class="nav-link" href="{% url 'book-create' %}">Add Book</a>
+        </button>
+    {% endif %}
 <form action="{% url 'book-list' %}">
   <div class="input-group mb-3">
     <input type="text" class="form-control" placeholder="Search" aria-label="Search" name="q" value="{{request.GET.q}}">

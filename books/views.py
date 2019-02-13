@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from .forms import SignupForm, SigninForm
+from .forms import SignupForm, SigninForm, BookForm
 from .models import Book
 from django.contrib.auth.models import User
 from django.contrib import messages
+
 # Create your views here.
 
 def booklist(request):
@@ -54,3 +55,17 @@ def signin(request):
 def signout(request):
     logout(request)
     return redirect("signin")
+
+def book_create(request):
+    if request.user.is_anonymous:
+        return redirect('signin')
+    form = BookForm()
+    if request.method == "POST":
+        form = BookForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('book-list')
+    context = {
+        "form":form,
+    }
+    return render(request, 'create.html', context)
