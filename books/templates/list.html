@@ -23,15 +23,20 @@
         <div class="card my-card">
           {% if book.image %}
             <img class="card-img-top" src="{{book.image.url}}" alt="Hey Noob, look at me...">
+          </ul>
           {% endif %}
           <div class="card-body">
             <h5 class="card-title">{{book.book_name}} </h5>
             <p class="card-text">
               <div class="float-left">
                 Condition: {{book.condition}}<br>
-                isbn: {{book.isbn}}
+                isbn: {{book.isbn}}<br>
               </div>
             </p>
+              <ul class="list-group list-group-flush">
+            <li class="list-group-item text-center">
+                <a href="{% url 'book-detail' book.id %}" class="btn btn-outline-dark">View</a>
+            </li>
           </div>
           
         </div>

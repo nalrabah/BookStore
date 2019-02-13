@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'books',
     'crispy_forms',
     'isbn_field',
+    'fontawesome',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

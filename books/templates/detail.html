@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Book Detail{% endblock title %}
+
+{% block content %}
+
+<br>
+<div class="card">
+  <h5 class="card-header">Book Info</h5>
+  {% if book.image %}
+    <img class="card-img-top" src="{{book.image.url}}" alt="What am I looking at...">
+  {% endif %}
+  <div class="card-body">
+    <h5 class="card-title">{{book.name}} Author: {{book.author}}</h5>
+    <p class="card-text">{{book.isbn}}</p>
+  </div>
+  <div class="card-body">
+    <div class="row text-center">
+      {% if request.user.is_staff %}
+        <div class="col-md-4">
+            <a href="{% url 'book-delete' book.id %}" class="btn btn-outline-danger btn-block">Delete</a>
+        </div>
+      {% elif request.user == book.creator %}
+            <a href="{% url 'book-create' book.id %}" class="btn btn-outline-success btn-block">Add Item</a>
+        </div>
+      {% endif %}
+              <div class="float-right">
+        <i id="star-{{book.id}}"
+                    class="fas fa-star {% if book.id in bought_list %}text-warning{% endif %}"
+                    onclick="favorite_me({{book.id}})"></i>
+    </div>
+  </div>
+</div>
+{% endblock content %}
