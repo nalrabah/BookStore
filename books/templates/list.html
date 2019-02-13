@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}List{% endblock title %}
+
+{% block content %}
+<br>
+<form action="{% url 'book-list' %}">
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Search" aria-label="Search" name="q" value="{{request.GET.q}}">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="submit">Search</button>
+    </div>
+  </div>
+</form>
+<div class="row">
+    {% for book in books %}
+    <div class="col-md-4">
+        <div class="card my-card">
+          {% if book.image %}
+            <img class="card-img-top" src="{{book.image.url}}" alt="Hey Noob, look at me...">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{book.book_name}} </h5>
+            <p class="card-text">
+              <div class="float-left">
+                Condition: {{book.condition}}<br>
+                isbn: {{book.isbn}}
+              </div>
+            </p>
+          </div>
+          
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
